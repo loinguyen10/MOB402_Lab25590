@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "username": "Hiếu",
+    "email": "hieubeo@abc.com",
+    "phone": "0987654321"
+  },
+
+  {
+    "id": 2,
+    "username": "Hùng",
+    "email": "hung123@abc.com",
+    "phone": "0978573213"
+  },
+
+  {
+    "id": 3,
+    "username": "Tùng",
+    "email": "tungksj@gmail.com",
+    "phone": "0847374294"
+  }
+]

@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "name": "Quần bò",
+    "price": "10000",
+    "image": "",
+    "color": "red",
+    "type": "quần",
+    "userId": "2",
+    "userName": "Hùng"
+  },
+
+  {
+    "id": 2,
+    "name": "Quần bò",
+    "price": "10000",
+    "image": "",
+    "color": "red",
+    "type": "quần",
+    "userId": "1",
+    "userName": "Hiếu"
+  },
+
+  {
+    "id": 3,
+    "name": "Quần bò",
+    "price": "10000",
+    "image": "",
+    "color": "red",
+    "type": "quần",
+    "userId": "2",
+    "userName": "Hùng"
+  },
+
+  {
+    "id": 4,
+    "name": "Quần bò",
+    "price": "10000",
+    "image": "",
+    "color": "red",
+    "type": "quần",
+    "userId": "3",
+    "userName": "Tùng"
+  },
+
+  {
+    "id": 5,
+    "name": "Quần bò",
+    "price": "10000",
+    "image": "",
+    "color": "red",
+    "type": "quần",
+    "userId": "2",
+    "userName": "Hùng"
+  },
+
+  {
+    "id": 6,
+    "name": "Quần bò",
+    "price": "10000",
+    "image": "",
+    "color": "red",
+    "type": "quần",
+    "userId": "3",
+    "userName": "Tùng"
+  },
+
+  {
+    "id": 7,
+    "name": "Quần bò",
+    "price": "10000",
+    "image": "",
+    "color": "red",
+    "type": "quần",
+    "userId": "2",
+    "userName": "Hùng"
+  },
+
+  {
+    "id": 8,
+    "name": "Quần bò",
+    "price": "10000",
+    "image": "",
+    "color": "red",
+    "type": "quần",
+    "userId": "3",
+    "userName": "Tùng"
+  },
+
+  {
+    "id": 9,
+    "name": "Quần bò",
+    "price": "10000",
+    "image": "",
+    "color": "red",
+    "type": "quần",
+    "userId": "1",
+    "userName": "Hiếu"
+  }
+  
+]
