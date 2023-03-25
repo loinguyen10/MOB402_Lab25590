@@ -48,8 +48,9 @@
             <td name="emailEdit">{{this.email}}</td>
             <td name="phoneEdit">{{this.phone}}</td>
             <td>
-              <button type="button" class="btn btn-warning" id="editProduct">Edit</button>
-              <button type="button" class="btn btn-danger" id="deleteProduct">Delete</button>
+              <button type="button" class="btn btn-warning" id="editProduct" data-bs-toggle="modal"
+          data-bs-target="#userEModal" onclick="editU({{this.id}})">Edit</button>
+              <button type="button" class="btn btn-danger" id="deleteProduct" onclick="deleteItem({{this.id}})">Delete</button>
             </td>
           </tr>
           {{/each}}
@@ -124,14 +125,35 @@
   </div>
   <!-- The Modal -->
 
+  <script>
+
+function editU(id){
+  location.href = `/editU/${id}`;
+  console.log(id)
+}
+
+function deleteItem(id) {
+    fetch(`/inside/${id}`, { method: 'DELETE' })
+      .then(response => {
+        if (response.ok) {
+          location.reload();
+        } else {
+          alert('Xóa thất bại')
+        }
+      })
+      .catch(error => console.error(error));
+  }
+
+  </script>
+
   <!-- The Modal -->
-  <div class="modal fade" id="userModal">
+  <div class="modal fade" id="userEModal">
     <div class="modal-dialog">
       <div class="modal-content">
 
         <div class="modal-body">
           <label>Edit User</label>
-            {{{}}}
+            {{>editUser}}
         </div>
       </div>
     </div>

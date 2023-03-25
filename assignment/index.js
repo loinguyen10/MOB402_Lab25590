@@ -106,6 +106,7 @@ app.post("/addUser", function (req, res) {
     };
     console.log(newAcc);
     userData.push(newAcc);
+    fs.writeFileSync('db_user.json', JSON.stringify(userData));
     res.redirect('/signIn')
   });
 
@@ -121,6 +122,26 @@ app.post("/editUser", (req,res) => {
     user.email = email;
 
 });
+
+app.get('/editU/:id', function (req, res) {
+    console.log("OK");
+    let user = userData.find((acc) => acc.id === parseInt(req.params.id));
+    res.render('./layouts/inside', { user});
+  })
+
+  app.delete("/inside/:id", function (req, res) {
+    const id = req.params.id;
+    const index = userData.findIndex(
+        (user) => user.id === parseInt(id)
+        );
+    if (index >= 0) {
+      userData.splice(index, 1);
+      res.status(200).send("Deleted successfully");
+    } else {
+      res.status(404).send("Account not found");
+    }
+    fs.writeFileSync('db_user.json', JSON.stringify(userData));
+  });
 
 //
 
