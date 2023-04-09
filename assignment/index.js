@@ -4,8 +4,10 @@ var expressHbs = require("express-handlebars");
 const fs = require('fs');
 var app = express();
 
-const userData = JSON.parse(fs.readFileSync('db_user.json', 'utf-8'));
-const productData = JSON.parse(fs.readFileSync('db_product.json', 'utf-8'));
+let uri = 'mongodb+srv://admin:admin@cluster0.o8ogiw5.mongodb.net/User'
+
+const productM = require('./productServer');
+const userM = require('./userServer');
 
 app.engine('.hbs', expressHbs.engine({
     extname:"hbs",
@@ -13,12 +15,8 @@ app.engine('.hbs', expressHbs.engine({
     layoutsDir:"views/layouts"
 }));
 
-app.use(
-    express.urlencoded({
-      extended: true,
-    })
-  );
-  app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 app.set('view engine', '.hbs');
 
@@ -75,8 +73,19 @@ app.post('/signIn', (req, res) => {
     }
 });
 
-app.get('/signIn',(req,res) => {
-    res.render('main', {layout : 'inside' , userData, productData});
+app.get('/signIn',async (req,res) => {
+  await mongoose.connect(uri);
+  console.log('Ket noi DB thanh cong');
+
+  let userDb = await userM.find({});
+  let productDb = await productM.find({});
+
+  console.log("product: \n" + productDb);
+  console.log("user: \n" + userDb);
+
+  res.render('main', { layout: 'inside', userDb, productDb, helpers:{
+      sum: (a,b) => a+b
+  } });
 });
 
 app.get('/signUp', (req, res) => {
