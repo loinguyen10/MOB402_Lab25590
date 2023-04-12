@@ -6,6 +6,6 @@ const modelSchema = new mongoose.Schema({
     number: {type: Number}
 });
 
-const model = new mongoose.model('AssProducts', modelSchema);
+const model = new mongoose.model('assproducts', modelSchema);
 
 module.exports = model;
