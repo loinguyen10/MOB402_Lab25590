@@ -24,17 +24,17 @@ app.use(cookieParser());
 
 app.set('view engine', '.hbs');
 
-let account = [{
-  email: 'admin@admin', pass: 'admin', fullname: 'admin', avatar: 0, role: "admin",
-}]
+// let account = [{
+//   email: 'admin@admin', pass: 'admin', fullname: 'admin', avatar: 0, role: "admin",
+// }]
 
 //upload
 var storage = multer.diskStorage({
   destination: function (req, res, cb) {
-      cb(null, './image');
+    cb(null, './image');
   },
   filename: function (req, file, cb) {
-      cb(null, Date.now() + " - " + file.originalname);
+    cb(null, Date.now() + "-" + file.originalname);
   }
 });
 
@@ -47,16 +47,15 @@ app.post("/dangKy", upload.single("avatar"), async (req, res) => {
   let email = req.body.emailUp;
   let pass = req.body.passUp;
   let name = req.body.fullname;
-  let avatar = `image/` + Date.now() + " - " + `${req.file.originalname}`;
+  let phone = req.body.phone;
+  let avatar = `image/${req.file.originalname}`;
   let role = req.body.role;
-
-  console.log(avatar);
 
   let newAcc = {
     email: email,
     password: pass,
     fullname: name,
-    phone: "098",
+    phone: phone,
     avatar: avatar,
     role: role,
   };
@@ -90,12 +89,12 @@ app.post('/signIn', async (req, res) => {
     console.log(userFound);
 
     if (userFound) {
-      res.cookie('user',userFound);
+      res.cookie('user', userFound);
       console.log("OK");
-      if(userFound.role == "admin"){
+      if (userFound.role == "admin") {
         console.log(userFound.role);
         res.redirect('/signIn/AllUsers');
-      }else{
+      } else {
         res.redirect('/signIn/AllProducts');
       }
     } else {
@@ -108,20 +107,30 @@ app.post('/signIn', async (req, res) => {
   }
 });
 
-app.get('/signIn/AllUsers',async (req, res) => {
+app.get('/signIn/AllUsers', async (req, res) => {
+  await mongoose.connect(uri);
   let userData = await userM.find({}).lean();
   console.log("user: \n" + userData);
-  console.log(req.cookies.user);
-  console.log(req.headers.referer);
-  res.render('main', { layout: 'member', userData });
+  let acc = req.cookies.user;
+  console.log("All Users: " + req.cookies.user);
+  res.render('main', { layout: 'member', userData, acc });
 });
 
-app.get('/signIn/AllProducts',async (req, res) => {
+app.get('/signIn/AllProducts', async (req, res) => {
+  await mongoose.connect(uri);
   let productData = await productM.find({}).lean();
+  let acc = req.cookies.user;
+  console.log("All Products: " + req.cookies.user);
+
+  if (acc.role == "admin") {
+    productData = await productM.find({}).lean();
+  } else {
+    productData = await productM.find({ userID: acc._id }).lean();
+  }
 
   console.log("product: \n" + productData);
 
-  res.render('main', { layout: 'product', productData });
+  res.render('main', { layout: 'product', productData, acc });
 });
 
 app.get('/signUp', (req, res) => {
@@ -129,21 +138,28 @@ app.get('/signUp', (req, res) => {
 })
 
 app.get('/', (req, res) => {
+  res.clearCookie('user');
   res.render('main', { layout: 'signIn', content: 'signIn' });
 });
 
 //
-app.post("/addUser", async (req, res) => {
-  let name = req.body.userNameAdd;
+////User
+//
+
+app.post("/addUser", upload.single("avatar"), async (req, res) => {
+  let name = req.body.fullnameAdd;
   let phone = req.body.phoneAdd;
   let email = req.body.emailAdd;
-  let pass = req.body.passAdd;
+  let pass = req.body.passwordAdd;
+  let role = req.body.roleAdd;
+  let avatar = `image/${req.file.originalname}`;
   let newAcc = {
-    username: name,
+    fullname: name,
     email: email,
     phone: phone,
     password: pass,
-    //   avatar:`rsc/${req.file.originalname}`
+    avatar: avatar,
+    role: role
   };
   console.log(newAcc);
   try {
@@ -153,6 +169,7 @@ app.post("/addUser", async (req, res) => {
     await userM.create(newAcc);
 
     await mongoose.disconnect();
+    console.log(req.cookies.user);
     res.redirect('/signIn/AllUsers');
     console.log('Thêm thành công');
   } catch (err) {
@@ -170,10 +187,12 @@ app.get('/editU/:id', async (req, res) => {
 
 app.post('/editUser/:id', async (req, res) => {
   const id = req.params.id;
-  const { username, email, phone } = req.body;
-  const doc = await userM.findByIdAndUpdate(id, { username, email, phone }).lean();
+  const { fullname, email, phone, password } = req.body;
+  const doc = await userM.findByIdAndUpdate(id, { fullname, email, phone, password }).lean();
   console.log(id, doc);
-  res.redirect('/signIn/AllUsers');
+  console.log(req.cookies.user);
+  // res.redirect('/signIn/AllUsers');
+  res.redirect(req.headers.referer);
 });
 
 app.delete("/deleteU/:id", async function (req, res) {
@@ -183,9 +202,12 @@ app.delete("/deleteU/:id", async function (req, res) {
   res.redirect('/signIn/AllUsers');
 });
 
-//
+////
 
 //
+////Product
+//
+
 app.post("/addProduct", async (req, res) => {
   let name = req.body.userNameAdd;
   let phone = req.body.phoneAdd;

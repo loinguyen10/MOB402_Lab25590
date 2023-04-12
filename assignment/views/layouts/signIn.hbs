@@ -11,26 +11,24 @@
 </head>
 
 <body style="background-image: linear-gradient(to right, rgba(255, 80, 80, 0.55), rgb(25, 225, 225, 0.55))">
-  <div class="container p-5 my-5 border col-lg-4 bg-light rounded border-dark">
-    <form action="/signIn" method="post">
+  <div class="container p-5 my-5 border col-ld-8 bg-light rounded border-dark">
+    <img src="https://i.imgur.com/4z3ZRni.jpg" style="max-width:25%;" class=".col-sm-3" />
+    <div class=".col-sm-3">
+      <form action="/signIn" method="post">
         <div class="mb-3 mt-3">
-            <label for="emailIn">Email:</label>
-            <input type="email" class="form-control" id="emailIn" name="emailIn" placeholder="email">
+          <label for="emailIn">Email:</label>
+          <input type="email" class="form-control" id="emailIn" name="emailIn" placeholder="email">
         </div>
         <div class="mb-3">
-            <label for="passwordIn">Password:</label>
-            <input type="password" class="form-control" id="passIn" name="passIn" placeholder="password">
-        </div>
-        <div class="form-check mb-3">
-            <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" name="remember"> Remember me
-            </label>
+          <label for="passwordIn">Password:</label>
+          <input type="password" class="form-control" id="passIn" name="passIn" placeholder="password">
         </div>
         <button type="submit" class="btn btn-primary" name="signIn">Sign In</button>
-        <button type="button" class="btn btn-primary" name="signUp" onclick="window.location.href='/signup'">Sign Up</button>
-    </form>
-</div>
+        <button type="button" class="btn btn-primary" name="signUp" onclick="window.location.href='/signup'">Sign
+          Up</button>
+      </form>
+    </div>
+  </div>
 </body>
 
 </html>
-

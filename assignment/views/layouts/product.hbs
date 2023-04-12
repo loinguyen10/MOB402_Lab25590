@@ -9,20 +9,33 @@
 <body>
 
     <div class="float-none">
-        <div class="btn-group float-start " id="admin-content">
+        <div class="btn-group float-start d-none" id="admin-content">
             <button type="button" class="btn btn-secondary"
                 onclick="window.location.href='/signIn/AllUsers'">User</button>
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/signIn/AllProducts'">Product</button>
+            <button type="button" class="btn btn-primary"
+                onclick="window.location.href='/signIn/AllProducts'">Product</button>
         </div>
 
-        <div class="btn-group float-end">
-            <button type="button" class="btn btn-success" onclick="">Edit Profile</button>
+        <h5 class="float-end" style="margin: 10px ;">HELLO {{acc.fullname}}</h5>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Refresh_icon.png" class="rounded"
+            style="max-width: 2%" ; onclick="hideShow('{{acc.role}}')" id="refersh-icon" />
+
+        <div class="dropdown float-end">
+            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                More
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" onclick="window.location.href='/editU/{{acc._id}}'">Edit Profile</a></li>
+                <li><a class="dropdown-item" onclick="window.location.href='/'">Sign Out</a></li>
+            </ul>
         </div>
     </div>
 
     <div>
         <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-success" id="addProduct">Add</button>
+            <button type="button" class="btn btn-success" id="addProduct" data-bs-toggle="modal"
+        data-bs-target="#productModal">Add</button>
         </div>
         <table class="table table-hover" id="productTable">
             <thead>
@@ -63,33 +76,33 @@
 
                 <div class="modal-body">
                     <label>Add Product</label>
-                    <form action="/addUser" method="post">
+                    <form action="/addProduct" method="post">
                         <div class="mb-3 mt-3">
                             <label for="productNameAdd">Name:</label>
                             <input type="text" class="form-control" id="productNameAdd" name="productNameAdd"
                                 placeholder="productName">
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="priceAdd">Email:</label>
+                            <label for="priceAdd">Price:</label>
                             <input type="number" class="form-control" id="priceAdd" name="priceAdd" placeholder="price">
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="colorAdd">Email:</label>
+                            <label for="colorAdd">Color:</label>
                             <input type="text" class="form-control" id="colorAdd" name="colorAdd" placeholder="color">
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="typeAdd">Email:</label>
+                            <label for="typeAdd">Type:</label>
                             <input type="text" class="form-control" id="typeAdd" name="typeAdd" placeholder="type">
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="userIdAdd">Email:</label>
+                            <label for="userIdAdd">User Id:</label>
                             <input type="text" class="form-control" id="userIdAdd" name="userIdAdd"
-                                placeholder="userId">
+                                placeholder="userId" value="{{acc._id}}" readonly>
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="userNAdd">Email:</label>
+                            <label for="userNAdd">User Name:</label>
                             <input type="text" class="form-control" id="userNAdd" name="userNAdd"
-                                placeholder="userName">
+                                placeholder="userName" value="{{acc.fullname}}" readonly>
                         </div>
                 </div>
 
@@ -103,6 +116,19 @@
     </div>
 
     <script>
+
+        function hideShow(role) {
+            if (role == "admin") {
+                console.log("ad");
+                const adminContent = document.getElementById("admin-content");
+                adminContent.classList.remove("d-none");
+                document.getElementById("refersh-icon").remove();
+            } else {
+                console.log("ko");
+                document.getElementById("refersh-icon").remove();
+            }
+        }
+
         function deleteProduct(id) {
             let text = "Xóa?";
             if (confirm(text) == true) {
