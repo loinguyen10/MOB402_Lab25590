@@ -21,7 +21,7 @@
         More
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" onclick="window.location.href='/editU/{{acc._id}}'">Edit Profile</a></li>
+        <li><a class="dropdown-item" onclick="window.location.href='/editFile/{{acc._id}}'">Edit Profile</a></li>
         <li><a class="dropdown-item" onclick="window.location.href='/'">Sign Out</a></li>
       </ul>
     </div>
@@ -73,27 +73,27 @@
           <form action="/addUser" method="post" enctype="multipart/form-data">
             <div class="mb-3 mt-3">
               <label for="fullnameAdd">Fullname:</label>
-              <input type="text" class="form-control" id="fullnameAdd" name="fullnameAdd" placeholder="Fullname">
+              <input type="text" class="form-control" id="fullnameAdd" name="fullnameAdd" placeholder="Fullname" required>
             </div>
             <div class="mb-3 mt-3">
               <label for="emailAdd">Email:</label>
-              <input type="email" class="form-control" id="emailAdd" name="emailAdd" placeholder="email">
+              <input type="email" class="form-control" id="emailAdd" name="emailAdd" placeholder="email" required>
             </div>
             <div class="mb-3 mt-3">
               <label for="phoneAdd">Phone:</label>
-              <input type="number" class="form-control" id="phoneAdd" name="phoneAdd" placeholder="phone">
+              <input type="number" class="form-control" id="phoneAdd" name="phoneAdd" placeholder="phone" required>
             </div>
             <div class="mb-3">
               <label for="avatar">Avatar:</label>
-              <input type="file" name="avatar" id="avatar" accept="image/*" />
+              <input type="file" name="avatar" id="avatar" accept="image/*" required/>
             </div>
             <div class="mb-3 mt-3">
               <label for="passwordAdd">Password:</label>
-              <input type="text" class="form-control" id="passwordAdd" name="passwordAdd" placeholder="password">
+              <input type="text" class="form-control" id="passwordAdd" name="passwordAdd" placeholder="password" required>
             </div>
             <div class="mb-3 mt-3">
               <label for="roleAdd">Role:</label>
-              <input type="text" class="form-control" id="roleAdd" name="roleAdd" placeholder="role">
+              <input type="text" class="form-control" id="roleAdd" name="roleAdd" placeholder="role" required>
             </div>
         </div>
 

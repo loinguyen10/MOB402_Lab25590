@@ -138,7 +138,6 @@ app.get('/signUp', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  res.clearCookie('user');
   res.render('main', { layout: 'signIn', content: 'signIn' });
 });
 
@@ -187,13 +186,14 @@ app.get('/editU/:id', async (req, res) => {
 
 app.post('/editUser/:id', async (req, res) => {
   const id = req.params.id;
-  const { fullname, email, phone, password } = req.body;
-  const doc = await userM.findByIdAndUpdate(id, { fullname, email, phone, password }).lean();
+  const { fullname, email, phone, password, role } = req.body;
+  const doc = await userM.findByIdAndUpdate(id, { fullname, email, phone, password, role }).lean();
   console.log(id, doc);
   console.log(req.cookies.user);
-  // res.redirect('/signIn/AllUsers');
-  res.redirect(req.headers.referer);
+  res.redirect('/signIn/AllUsers');
 });
+
+
 
 app.delete("/deleteU/:id", async function (req, res) {
   const id = req.params.id;
@@ -202,28 +202,45 @@ app.delete("/deleteU/:id", async function (req, res) {
   res.redirect('/signIn/AllUsers');
 });
 
+app.get('/editFile/:id', async (req, res) => {
+  const id = req.params.id;
+  const doc = await userM.findById(id).lean();
+  console.log(id, doc);
+  res.render('main', { layout: 'editProfile', doc });
+})
+
+app.post('/editProfile/:id', async (req, res) => {
+  const id = req.params.id;
+  const { fullname, email, phone, password } = req.body;
+  const doc = await userM.findByIdAndUpdate(id, { fullname, email, phone, password }).lean();
+  console.log(id, doc);
+  console.log(req.cookies.user);
+  res.redirect(req.headers.referer);
+});
+
 ////
 
 //
 ////Product
 //
 
-app.post("/addProduct", async (req, res) => {
-  let name = req.body.userNameAdd;
-  let phone = req.body.phoneAdd;
-  let email = req.body.emailAdd;
-  let newAcc = {
-    username: name,
-    email: email,
-    phone: phone,
-    //   avatar:`rsc/${req.file.originalname}`
+app.post("/addProduct", upload.single("avatar"), async (req, res) => {
+  let name = req.body.productNameAdd;
+  let price = req.body.priceAdd;
+  let color = req.body.colorAdd;
+  let type = req.body.typeAdd;
+  let userID = req.body.userIdAdd;
+  let userName = req.body.userNAdd;
+  let avatar = `image/${req.file.originalname}`;
+  let newProduct = {
+    name,price,avatar,color,type,userID,userName
   };
-  console.log(newAcc);
+  console.log(newProduct);
   try {
     // connect to the database
     await mongoose.connect(uri);
     console.log('Ket noi DB 2 thanh cong');
-    await userM.create(newAcc);
+    await productM.create(newProduct);
 
     await mongoose.disconnect();
     res.redirect('/signIn/AllProducts');
@@ -236,22 +253,22 @@ app.post("/addProduct", async (req, res) => {
 
 app.get('/editP/:id', async (req, res) => {
   const id = req.params.id;
-  const doc = await userM.findById(id).lean();
+  const doc = await productM.findById(id).lean();
   console.log(id, doc);
-  res.render('main', { layout: 'editUser', doc });
+  res.render('main', { layout: 'editProduct', doc });
 })
 
 app.post('/editProduct/:id', async (req, res) => {
   const id = req.params.id;
-  const { username, email, phone } = req.body;
-  const doc = await userM.findByIdAndUpdate(id, { username, email, phone }).lean();
+  const { name,price,color,type,userID,userName } = req.body;
+  const doc = await productM.findByIdAndUpdate(id, { name,price,color,type,userID,userName }).lean();
   console.log(id, doc);
   res.redirect('/signIn/AllProducts');
 });
 
 app.delete("/deleteP/:id", async function (req, res) {
   const id = req.params.id;
-  const doc = await userM.findByIdAndDelete(id).lean();
+  const doc = await productM.findByIdAndDelete(id).lean();
   console.log("Xoa thanh cong: " + id, doc);
   res.redirect('/signIn/AllProducts');
 });

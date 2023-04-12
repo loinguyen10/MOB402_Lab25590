@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
-<body>
+<body onload="hideShow('{{acc.role}}')">
 
     <div class="float-none">
         <div class="btn-group float-start d-none" id="admin-content">
@@ -17,8 +17,6 @@
         </div>
 
         <h5 class="float-end" style="margin: 10px ;">HELLO {{acc.fullname}}</h5>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Refresh_icon.png" class="rounded"
-            style="max-width: 2%" ; onclick="hideShow('{{acc.role}}')" id="refersh-icon" />
 
         <div class="dropdown float-end">
             <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -35,7 +33,7 @@
     <div>
         <div class="d-flex justify-content-center">
             <button type="button" class="btn btn-success" id="addProduct" data-bs-toggle="modal"
-        data-bs-target="#productModal">Add</button>
+                data-bs-target="#productModal">Add</button>
         </div>
         <table class="table table-hover" id="productTable">
             <thead>
@@ -57,7 +55,7 @@
                     <td>{{this.price}}</td>
                     <td>{{this.color}}</td>
                     <td>{{this.type}}</td>
-                    <td>{{this.userId}}</td>
+                    <td>{{this.userID}}</td>
                     <td>{{this.userName}}</td>
                     <td><button type="button" class="btn btn-warning"
                             onclick="window.location.href='/editP/{{this._id}}'">Edit</button>
@@ -76,38 +74,42 @@
 
                 <div class="modal-body">
                     <label>Add Product</label>
-                    <form action="/addProduct" method="post">
+                    <form action="/addProduct" method="post"  enctype="multipart/form-data">
                         <div class="mb-3 mt-3">
                             <label for="productNameAdd">Name:</label>
                             <input type="text" class="form-control" id="productNameAdd" name="productNameAdd"
-                                placeholder="productName">
+                                placeholder="productName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="avatar">Avatar:</label>
+                            <input type="file" name="avatar" id="avatar" accept="image/*" required />
                         </div>
                         <div class="mb-3 mt-3">
                             <label for="priceAdd">Price:</label>
-                            <input type="number" class="form-control" id="priceAdd" name="priceAdd" placeholder="price">
+                            <input type="number" class="form-control" id="priceAdd" name="priceAdd" placeholder="price" required>
                         </div>
                         <div class="mb-3 mt-3">
                             <label for="colorAdd">Color:</label>
-                            <input type="text" class="form-control" id="colorAdd" name="colorAdd" placeholder="color">
+                            <input type="text" class="form-control" id="colorAdd" name="colorAdd" placeholder="color" required>
                         </div>
                         <div class="mb-3 mt-3">
                             <label for="typeAdd">Type:</label>
-                            <input type="text" class="form-control" id="typeAdd" name="typeAdd" placeholder="type">
+                            <input type="text" class="form-control" id="typeAdd" name="typeAdd" placeholder="type" required>
                         </div>
                         <div class="mb-3 mt-3">
                             <label for="userIdAdd">User Id:</label>
-                            <input type="text" class="form-control" id="userIdAdd" name="userIdAdd"
-                                placeholder="userId" value="{{acc._id}}" readonly>
+                            <input type="text" class="form-control" id="userIdAdd" name="userIdAdd" placeholder="userId"
+                                value="{{acc._id}}" readonly>
                         </div>
                         <div class="mb-3 mt-3">
                             <label for="userNAdd">User Name:</label>
-                            <input type="text" class="form-control" id="userNAdd" name="userNAdd"
-                                placeholder="userName" value="{{acc.fullname}}" readonly>
+                            <input type="text" class="form-control" id="userNAdd" name="userNAdd" placeholder="userName"
+                                value="{{acc.fullname}}" readonly>
                         </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal" id="saveAdd">Save</button>
+                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal" value="upload">Save</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </form>
                 </div>
